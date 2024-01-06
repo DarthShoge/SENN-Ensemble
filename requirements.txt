@@ -1,0 +1,17 @@
+yfinance==0.1.54 
+tensorflow
+stanfordnlp 
+bs4
+contractions
+inflect
+nltk
+textblob
+dtaidistance
+stockstats
+pandas
+numpy
+gensim
+scikit-learn
+datetime
+matplotlib
+seaborn

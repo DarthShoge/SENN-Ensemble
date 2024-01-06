@@ -1,7 +1,7 @@
 
-PATH_ROOT='C:/Users/Louis Owen/Desktop/ICoDSA 2020/SENN/Dataset/'
+# PATH_ROOT='../Dataset/crypto/'
 
-print('==================== Importing Packages ====================')
+# print('==================== Importing Packages ====================')
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -14,16 +14,16 @@ sns.set()
 
 import stockstats
 
+# #------------------------------------------------------------------------------------------
+# print("==================== Importing Data ====================")
+
+# df_yfinance_BA = pd.read_csv(PATH_ROOT+'df_yfinance_full_BA.csv')
+# df_yfinance_BA.index=pd.to_datetime(df_yfinance_BA['Date'].reset_index(drop=True)+' '+df_yfinance_BA['time'].reset_index(drop=True))
+# df_yfinance_BA=df_yfinance_BA.drop(['Date','time'],1)
+
 #------------------------------------------------------------------------------------------
-print("==================== Importing Data ====================")
 
-df_yfinance_BA = pd.read_csv(PATH_ROOT+'df_yfinance_full_BA.csv')
-df_yfinance_BA.index=pd.to_datetime(df_yfinance_BA['Date'].reset_index(drop=True)+' '+df_yfinance_BA['time'].reset_index(drop=True))
-df_yfinance_BA=df_yfinance_BA.drop(['Date','time'],1)
-
-#------------------------------------------------------------------------------------------
-
-def main():
+def main(df_yfinance_BA ):
 	#Create Target Variable
 	window=7
 	BA_close=df_yfinance_BA['Close'].tolist()
@@ -319,7 +319,7 @@ def main():
 	df_yfinance_BA['true_range']=stock['tr']
 
 	#Create holiday_day_diff_before
-	df_yfinance_BA['holiday_day_diff_before']=(pd.Series(df_yfinance_BA.index).apply(lambda x: holiday_day_diff_before(x))).tolist()
+	# df_yfinance_BA['holiday_day_diff_before']=(pd.Series(df_yfinance_BA.index).apply(lambda x: holiday_day_diff_before(x))).tolist()
 
 	#Create Time Variable
 	df_yfinance_BA['date']=df_yfinance_BA.index.day.tolist()
@@ -328,7 +328,8 @@ def main():
 	df_yfinance_BA['time']=df_yfinance_BA['time'].astype(str)
 	df_yfinance_BA['time']=df_yfinance_BA['time'].apply(lambda x: 1 if x=='09:30:00' else 2 if x=='10:30:00' else 3 if x=='11:30:00' else 4 if x=='12:30:00' else 5 if x=='13:30:00' else 6 if x=='14:30:00' else 7)
 
-	df_yfinance_BA.to_csv(PATH_ROOT+'Final/df_yfinance_BA_prepared.csv')
+	# df_yfinance_BA.to_csv(PATH_ROOT+'Final/df_yfinance_BA_prepared.csv')
+	return df_yfinance_BA
 
 
 if __name__ == '__main__':
