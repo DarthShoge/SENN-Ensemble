@@ -3,16 +3,16 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler,StandardScaler
 
 
-def build_timeseries(mat, y_col_index,TIME_STEPS):
+def build_timeseries(mat, y_col_index, TIME_STEPS):
 	# y_col_index is the index of column that would act as output column
 	# total number of time-series samples would be len(mat) - TIME_STEPS
 	dim_0 = mat.shape[0] - TIME_STEPS
 	dim_1 = mat.shape[1]
-	x = np.zeros((dim_0, TIME_STEPS, dim_1))
+	x = np.zeros((dim_0, TIME_STEPS, dim_1 - 1))  # Modify this line
 	y = np.zeros((dim_0,))
 
 	for i in range(dim_0):
-		x[i] = mat[i:TIME_STEPS+i]
+		x[i] = mat[i:TIME_STEPS+i, np.arange(dim_1) != y_col_index]  # Modify this line
 		y[i] = mat[TIME_STEPS+i, y_col_index]
 	return x, y
 
@@ -61,3 +61,13 @@ def adjusted_mape(y_true, y_pred):
 
 	y_true, y_pred = np.array(y_true), np.array(y_pred)
 	return np.mean(np.abs((y_true - y_pred) / (2*y_true)) * adjustment_constant) * 100
+
+
+
+def get_column_index(df, column_name):
+	try:
+		index = df.columns.get_loc(column_name)
+		return index
+	except KeyError:
+		print(f"Column '{column_name}' not found in the dataframe.")
+		return None
